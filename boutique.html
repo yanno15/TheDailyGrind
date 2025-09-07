@@ -1,0 +1,660 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css" />
+    <script src="https://cdn.jsdelivr.net/npm/@tailwindcss/browser@4"></script>
+    <script src="script.js" defer></script>
+    <link
+        href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;700&family=Playfair+Display:wght@700&display=swap"
+        rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/4.1.1/animate.min.css" />
+    <style>
+        body {
+            font-family: 'Montserrat', Arial, sans-serif;
+        }
+
+        h1,
+        h2,
+        h3,
+        h4,
+        h5,
+        h6 {
+            font-family: 'Playfair Display', serif;
+        }
+        
+/* HTML: <div class="loader"></div> */
+.loader {
+  width: 40px;
+  height: 26px;
+  --c:no-repeat linear-gradient(#4A2C2A 0 0);
+  background:
+    var(--c) 0    100%,
+    var(--c) 50%  100%,
+    var(--c) 100% 100%;
+  background-size:8px calc(100% - 4px);
+  position: relative;
+}
+.loader:before {
+  content: "";
+  position: absolute;
+  width: 8px;
+  height: 8px;
+  border-radius: 50%;
+  background: #4A2C2A;
+  left: 0;
+  top: 0;
+  animation: 
+    l3-1 1.5s  linear infinite alternate,
+    l3-2 0.75s cubic-bezier(0,200,.8,200) infinite;
+}
+@keyframes l3-1 {
+  100% {left:calc(100% - 8px)}
+}
+@keyframes l3-2 {
+  100% {top:-0.1px}
+}
+    </style>
+    <title>Document</title>
+
+<body>
+    <div class="loader"></div>
+    <!-- navbar responsive sticky -->
+    <header>
+        <nav class="bg-transparent px-4 fixed top-0 z-50 w-full transition-transform duration-300 ease-in-out"
+            id="navbar">
+            <div class="flex items-center justify-between w-full lg:max-w-7xl mx-auto container" id="navbar-container">
+                <div>
+                    <img src="images/logo.png" alt="Company Logo" class="w-20">
+                </div>
+                <!-- sur desktop et mmoyen appareil -->
+                <div class="hidden md:block">
+                    <ul class="flex justify-between space-x-8 items-center">
+                        <li class=" nav-link hover:text-[#4A2C2A] text-white"><a href="index.html">Accueil</a></li>
+                        <li class="nav-link group relative hover:text-[#4A2C2A] text-white">
+                            <a href="#nos-cafes" class="flex items-center gap-2">
+                                Boutique
+                                <i class="fa fa-chevron-down text-xs"></i>
+                            </a>
+                            <!-- Dropdown menu -->
+                            <div
+                                class="absolute left-0 top-full min-w-[220px] bg-white shadow-lg rounded-lg mt-2 opacity-0 group-hover:opacity-100 pointer-events-none group-hover:pointer-events-auto transition duration-200 z-40">
+                                <h2 class="px-4 py-2 border-b border-gray-200 font-semibold text-[#4A2C2A]">Catégories
+                                </h2>
+                                <ul class="py-2">
+                                    <li class="px-4 py-2 hover:bg-gray-100">
+                                        <a href="#classiques-blends" class="font-bold text-[#4A2C2A]">Classiques &
+                                            Blends</a>
+                                    </li>
+                                    <li class="px-4 py-2 hover:bg-gray-100">
+                                        <a href="#origines-pures" class="font-bold text-[#4A2C2A]">Origines Pures</a>
+                                    </li>
+                                    <li class="px-4 py-2 hover:bg-gray-100">
+                                        <a href="#specialites-innovations" class="font-bold text-[#4A2C2A]">Spécialités
+                                            & Innovations</a>
+                                    </li>
+                                    <li class="px-4 py-2 hover:bg-gray-100">
+                                        <a href="#collections-saisonnieres" class="font-bold text-[#4A2C2A]">Collections
+                                            Saisonnières</a>
+                                    </li>
+                                </ul>
+                            </div>
+                        </li>
+                        <li class=" nav-link hover:text-[#4A2C2A] text-white"><a href="#a-propos">A propos</a></li>
+                        <li class=" nav-link hover:text-[#4A2C2A] text-white"><a href="index.html#contact">Contact</a></li>
+                        <li class="relative bg-gray-200 rounded-full p-4">
+                            <img src="images/carte-de-shopping.png" alt="Cart Icon" class="w-6 h-6"
+                                id="cart-icon-desktop">
+                            <span
+                                class="absolute top-1 right-1 transform translate-x-1/2 -translate-y-1/2 bg-red-500 text-white text-xs font-bold rounded-full w-5 h-5 flex items-center justify-center"
+                                id="cart-count-desktop">0</span>
+                        </li>
+                    </ul>
+                </div>
+                <!-- bouton hamburger plus panier -->
+                <div class="md:hidden flex flex-row-reverse items-center gap-4">
+                    <button id="hamburger" class="flex items-center p-4 w-20 text-3xl">
+                        <i class="fa-solid fa-bars " id="hamburger-icon"></i>
+                    </button>
+                    <!-- bouton de fermeture -->
+                    <button id="close-menu" class="flex items-center p-4 w-20 text-3xl hidden">
+                        <i class="fa-solid fa-xmark" id="close-icon"></i>
+                    </button>
+                    <div class="relative bg-gray-200 rounded-full p-4">
+                        <img src="images/carte-de-shopping.png" alt="Cart Icon" class="w-6 h-6" id="cart-icon-mobile">
+                        <span
+                            class="absolute top-1 right-1 transform translate-x-1/2 -translate-y-1/2 bg-red-500 text-white text-xs font-bold rounded-full w-5 h-5 flex items-center justify-center"
+                            id="cart-count-mobile">0</span>
+                    </div>
+                </div>
+
+            </div>
+
+        </nav>
+                <!-- menu responsive -->
+        <div id="menu" class="fixed inset-0 z-50 hidden bg-black/50">
+            <div id="menu-panel"
+                class="bg-white w-64 h-full transform -translate-x-full transition-transform duration-300">
+                <div class="flex items-center justify-between border-b p-4">
+                
+                        <img src="images/logo.png" alt="Company Logo" class="w-20">
+                
+                    <button id="close-menu-panel" class="p-4 text-xl font-bold">✕</button>
+                
+                </div>
+                <nav class="mt-4">
+                    <ul class="flex flex-col space-y-4 p-4">
+                        <li><a href="index.html">Accueil</a></li>
+                        <li>
+                            <a href="boutique.html#nos-cafes" class="flex items-center gap-2">Boutique</a>
+                        </li>
+                        <li><a href="#a-propos">A propos</a></li>
+                        <li><a href="index.html#contact">Contact</a></li>
+                    </ul>
+                </nav>
+                <!-- Liens réseaux sociaux -->
+                <div class="flex justify-center mt-auto mb-4 space-x-4 text-xl">
+                    <a href="https://facebook.com" target="_blank"><i class="fab fa-facebook-f"></i></a>
+                    <a href="https://twitter.com" target="_blank"><i class="fab fa-twitter"></i></a>
+                    <a href="https://instagram.com" target="_blank"><i class="fab fa-instagram"></i></a>
+                    <a href="https://linkedin.com" target="_blank"><i class="fab fa-linkedin-in"></i></a>
+                </div>
+            </div>
+        </div>
+
+        <!-- Ajoute juste après la div du panier -->
+        <div id="cart" class="hidden  fixed top-20 right-4 bg-[#F5F5DC] shadow-lg rounded-xl p-6 z-50 w-80">
+            <h2 class="text-xl font-bold text-[#4A2C2A]">Votre Panier</h2>
+            <div id="cart-items" class="mt-4 text-[#4A2C2A]">
+                <!-- Les articles du panier seront ajoutés ici dynamiquement -->
+            </div>
+        </div>
+    </header>
+    <main>
+        <section class="relative h-screen top-0" id="accueil">
+            <img src="images/hero.png" alt="Hero Background"
+                class="absolute inset-0 object-cover w-full h-full -z-1 brightness-90 saturate-150">
+            <div class="absolute inset-0 bg-gradient-to-b from-yellow-100/40 via-orange-100/30 to-transparent"></div>
+            <div class="absolute inset-0 flex items-center justify-center pointer-events-none">
+                <div class="w-3/4 h-2/5 bg-black/60 rounded-full blur-2xl"></div>
+            </div>
+            <div class="relative z-10 flex flex-col items-center justify-center h-full text-center ">
+                <h1 class="text-6xl font-bold text-white">Bienvenue sur notre Boutique</h1>
+                <p class="mt-4 text-lg text-white text-center max-w-2xl px-8"> Les amateurs de café trouveront leur bonheur.</p>
+
+                <div class="rounded-md shadow my-10">
+                    <a href="#nos-cafes"
+                        class=" w-50 bg-[#4A2C2A] text-white hover:bg-[#3B2A2A] md:py-4 md:text-lg md:px-10 rounded-md py-2 px-4  text-sm font-medium transition duration-300 ease-in-out">
+                        Découvrir nos cafés
+                    </a>
+                </div>
+
+            </div>
+
+
+        </section>
+        <section class="bg-gray-50 min-h-screen pb-16 pt-30 px-6" id="nos-cafes">
+            <!-- Hero -->
+            <div class="text-center mb-12">
+                <h1 class="text-4xl md:text-5xl font-extrabold text-[#4A2C2A]">Nos Cafés</h1>
+                <p class="mt-4 text-lg text-gray-600 max-w-2xl mx-auto">Découvrez notre sélection de cafés de
+                    spécialité, torréfiés avec soin.</p>
+            </div>
+
+            <!-- catégories classiques 3produits -->
+            <h3 class="text-2xl font-bold text-[#4A2C2A] mb-6  py-4 animate__animated px-24 relative lg:inline-block text-center md:text-left"
+                id="classiques-blends">
+                Catégories Classiques
+                <span class="bg-[#4A2C2A] absolute w-[100px] h-1 bottom-0 left-24 hidden lg:block"></span>
+            </h3>
+            <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 mb-12 gap-8 max-w-7xl mx-auto my-10">
+                <!-- Product Card -->
+                <div class="bg-white rounded-2xl shadow-lg hover:shadow-2xl transition overflow-hidden group"
+                    id="melange-matinal">
+                    <div class="relative">
+                        <img src="images/Mélange_Matinal.png" alt="Product Image"
+                            class="object-contain group-hover:scale-105 transition-transform object-center bg-white"
+                            style="object-position: center;" />
+                        <span
+                            class="absolute top-3 right-3 bg-[#4A2C2A] text-white text-xs px-2 py-1 rounded">Recommandé</span>
+                    </div>
+                    <div class="p-5">
+                        <h3 class="text-lg font-bold text-[#4A2C2A] mb-1">Mélange Matinal</h3>
+                        <p class="text-sm text-gray-500 mb-2">Mélange de cafés d'Amérique Centrale et du Sud</p>
+                        <div class="flex items-center mb-2">
+                            <i class="fa fa-star text-yellow-400"></i>
+                            <i class="fa fa-star text-yellow-400"></i>
+                            <i class="fa fa-star text-yellow-400"></i>
+                            <i class="fa fa-star text-yellow-400"></i>
+                            <i class="fa fa-star text-yellow-400"></i>
+                            <span class="ml-2 text-sm text-gray-500">(5/5)</span>
+                        </div>
+                        <div class="flex justify-between items-center mt-4">
+                            <span class="text-lg font-semibold text-[#3B2A2A]">$12.99</span>
+                            <button
+                                class="ajouter-produit bg-[#4A2C2A] text-white px-4 py-2 rounded-lg hover:bg-[#3B2A2A]"
+                                data-id="melange-matinal" data-name="Mélange Matinal"
+                                data-price="12.99">ajouter</button>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="bg-white rounded-2xl shadow-lg hover:shadow-2xl transition overflow-hidden group"
+                    id="ethiopie-yirgacheffe">
+                    <div class="relative">
+                        <img src="images/Éthiopie Yirgacheffe.png" alt="Product Image"
+                            class="object-contain group-hover:scale-105 transition-transform object-center bg-white"
+                            style="object-position: center;" />
+                    </div>
+                    <div class="p-5">
+                        <h3 class="text-lg font-bold text-[#4A2C2A] mb-1">Mélange Espresso Intense</h3>
+                        <p class="text-sm text-gray-500 mb-2">Ce Mélange Espresso Intense est fait pour ceux qui aiment
+                            leur café fort et riche en saveurs.</p>
+                        <div class="flex items-center mb-2">
+                            <i class="fa fa-star text-yellow-400"></i>
+                            <i class="fa fa-star text-gray-400"></i>
+                            <i class="fa fa-star text-gray-400"></i>
+                            <i class="fa fa-star text-gray-400"></i>
+                            <i class="fa fa-star text-gray-400"></i>
+
+                            <span class="ml-2 text-sm text-gray-500">(1/5)</span>
+                        </div>
+                        <div class="flex justify-between items-center mt-4">
+                            <span class="text-lg font-semibold text-[#3B2A2A]">$10.99</span>
+                            <button
+                                class="ajouter-produit bg-[#4A2C2A] text-white px-4 py-2 rounded-lg hover:bg-[#3B2A2A]"
+                                data-id="melange-espresso-intense" data-name="Mélange Espresso Intense"
+                                data-price="10.99">ajouter</button>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="bg-white rounded-2xl shadow-lg hover:shadow-2xl transition overflow-hidden group"
+                    id="colombie-decafeine">
+                    <div class="relative">
+                        <img src="images/Colombie Décaféine.png" alt="Product Image"
+                            class=" object-contain group-hover:scale-105 transition-transform object-center bg-white"
+                            style="object-position: center;" />
+                    </div>
+                    <div class="p-5">
+                        <h3 class="text-lg font-bold text-[#4A2C2A] mb-1">L'Épicurien (Blend)</h3>
+                        <p class="text-sm text-gray-500 mb-2">Ce mélange de cafés d'Amérique du Sud offre des notes de
+                            chocolat et de noix.</p>
+                        <div class="flex items-center mb-2">
+                            <i class="fa fa-star text-yellow-400"></i>
+                            <i class="fa fa-star text-yellow-400"></i>
+                            <i class="fa fa-star text-gray-400"></i>
+                            <i class="fa fa-star text-gray-400"></i>
+                            <i class="fa fa-star text-gray-400"></i>
+                            <span class="ml-2 text-sm text-gray-500">(2/5)</span>
+                        </div>
+                        <div class="flex justify-between items-center mt-4">
+                            <span class="text-lg font-semibold text-[#3B2A2A]">$6.99</span>
+                            <button
+                                class="ajouter-produit bg-[#4A2C2A] text-white px-4 py-2 rounded-lg hover:bg-[#3B2A2A]"
+                                data-id="l-epicurien-blend" data-name="L'Épicurien (Blend)"
+                                data-price="6.99">ajouter</button>
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+
+            <!-- catégories Origines Pures -->
+            <h3 class="text-2xl font-bold text-[#4A2C2A] mb-6  py-4 animate__animated px-24 relative lg:inline-block text-center md:text-left"
+                id="origines-pures">
+                Catégories Origines Pures
+                <span class="bg-[#4A2C2A] absolute w-[100px] h-1 bottom-0 left-24 hidden lg:block"></span>
+            </h3>
+            <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 mb-12 gap-8 max-w-7xl mx-auto my-10">
+                <!-- Product Card -->
+                <div class="bg-white rounded-2xl shadow-lg hover:shadow-2xl transition overflow-hidden group"
+                    id="ethiopie-yirgacheffe">
+                    <div class="relative">
+                        <img src="images/Bresil cerrado.png" alt="Product Image"
+                            class="object-contain group-hover:scale-105 transition-transform object-center bg-white"
+                            style="object-position: center;" />
+                        <span
+                            class="absolute top-3 right-3 bg-[#4A2C2A] text-white text-xs px-2 py-1 rounded">New</span>
+                    </div>
+                    <div class="p-5">
+                        <h3 class="text-lg font-bold text-[#4A2C2A] mb-1">Brésil Cerrado</h3>
+                        <p class="text-sm text-gray-500 mb-2">Un café doux et chocolaté avec des notes de noisette.</p>
+                        <div class="flex items-center mb-2">
+                            <i class="fa fa-star text-gray-400"></i>
+                            <i class="fa fa-star text-gray-400"></i>
+                            <i class="fa fa-star text-gray-400"></i>
+                            <i class="fa fa-star text-gray-400"></i>
+                            <i class="fa fa-star text-gray-400"></i>
+                            <span class="ml-2 text-sm text-gray-500">(0/5)</span>
+                        </div>
+                        <div class="flex justify-between items-center mt-4">
+                            <span class="text-lg font-semibold text-[#3B2A2A]">$17.99</span>
+                            <button
+                                class="ajouter-produit bg-[#4A2C2A] text-white px-4 py-2 rounded-lg hover:bg-[#3B2A2A]"
+                                data-id="bresil-cerrado" data-name="Brésil Cerrado" data-price="17.99">ajouter</button>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="bg-white rounded-2xl shadow-lg hover:shadow-2xl transition overflow-hidden group"
+                    id="ethiopie-yirgacheffe">
+                    <div class="relative">
+                        <img src="images/Éthiopie Yirgacheffe.png" alt="Product Image"
+                            class="object-contain group-hover:scale-105 transition-transform object-center bg-white"
+                            style="object-position: center;" />
+                        <span
+                            class="absolute top-3 right-3 bg-[#4A2C2A] text-white text-xs px-2 py-1 rounded">Recommandé</span>
+                    </div>
+                    <div class="p-5">
+                        <h3 class="text-lg font-bold text-[#4A2C2A] mb-1">Éthiopie Yirgacheffe</h3>
+                        <p class="text-sm text-gray-500 mb-2">Un café floral et fruité avec des notes de jasmin
+                            et de
+                            bergamote.</p>
+                        <div class="flex items-center mb-2">
+                            <i class="fa fa-star text-yellow-400"></i>
+                            <i class="fa fa-star text-yellow-400"></i>
+                            <i class="fa fa-star text-yellow-400"></i>
+                            <i class="fa fa-star text-yellow-400"></i>
+                            <i class="fa fa-star text-yellow-400"></i>
+                            <span class="ml-2 text-sm text-gray-500">(5/5)</span>
+                        </div>
+                        <div class="flex justify-between items-center mt-4">
+                            <span class="text-lg font-semibold text-[#3B2A2A]">$15.99</span>
+                            <button
+                                class="ajouter-produit bg-[#4A2C2A] text-white px-4 py-2 rounded-lg hover:bg-[#3B2A2A]"
+                                data-id="ethiopie-yirgacheffe" data-name="Éthiopie Yirgacheffe"
+                                data-price="15.99">ajouter</button>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="bg-white rounded-2xl shadow-lg hover:shadow-2xl transition overflow-hidden group"
+                    id="colombie-decafeine">
+                    <div class="relative">
+                        <img src="images/Colombie Décaféine.png" alt="Product Image"
+                            class=" object-contain group-hover:scale-105 transition-transform object-center bg-white"
+                            style="object-position: center;" />
+                        <span
+                            class="absolute top-3 right-3 bg-[#4A2C2A] text-white text-xs px-2 py-1 rounded">Recommandé</span>
+                    </div>
+                    <div class="p-5">
+                        <h3 class="text-lg font-bold text-[#4A2C2A] mb-1">Colombie Décaféiné</h3>
+                        <p class="text-sm text-gray-500 mb-2">Un café doux et équilibré avec des notes de
+                            chocolat et de
+                            noix.</p>
+                        <div class="flex items-center mb-2">
+                            <i class="fa fa-star text-yellow-400"></i>
+                            <i class="fa fa-star text-yellow-400"></i>
+                            <i class="fa fa-star text-yellow-400"></i>
+                            <i class="fa fa-star text-yellow-400"></i>
+                            <i class="fa fa-star text-yellow-400"></i>
+                            <span class="ml-2 text-sm text-gray-500">(5/5)</span>
+                        </div>
+                        <div class="flex justify-between items-center mt-4">
+                            <span class="text-lg font-semibold text-[#3B2A2A]">$13.99</span>
+                            <button
+                                class="ajouter-produit bg-[#4A2C2A] text-white px-4 py-2 rounded-lg hover:bg-[#3B2A2A]"
+                                data-id="colombie-decafeine" data-name="Colombie Décaféiné"
+                                data-price="13.99">ajouter</button>
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+
+            <!-- catégories spécialités & innovations -->
+            <h3 class="text-2xl font-bold text-[#4A2C2A] mb-6  py-4 animate__animated px-24 relative lg:inline-block text-center md:text-left"
+                id="specialites-innovations">
+                Catégories Spécialités & Innovations
+                <span class="bg-[#4A2C2A] absolute w-[100px] h-1 bottom-0 left-24 hidden lg:block"></span>
+            </h3>
+            <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 mb-12 gap-8 max-w-7xl mx-auto my-10">
+                <!-- Product Card -->
+                <div class="bg-white rounded-2xl shadow-lg hover:shadow-2xl transition overflow-hidden group"
+                    id="ethiopie-yirgacheffe">
+                    <div class="relative">
+                        <img src="images/Bresil cerrado.png" alt="Product Image"
+                            class="object-contain group-hover:scale-105 transition-transform object-center bg-white"
+                            style="object-position: center;" />
+
+                    </div>
+                    <div class="p-5">
+                        <h3 class="text-lg font-bold text-[#4A2C2A] mb-1">Décaféiné Signature</h3>
+                        <p class="text-sm text-gray-500 mb-2">Ce café décaféiné offre une expérience riche et pleine de
+                            saveurs, sans la caféine.</p>
+                        <div class="flex items-center mb-2">
+                            <i class="fa fa-star text-yellow-400"></i>
+                            <i class="fa fa-star text-yellow-400"></i>
+                            <i class="fa fa-star text-yellow-400"></i>
+                            <i class="fa fa-star text-yellow-400"></i>
+                            <i class="fa fa-star text-yellow-400"></i>
+                            <span class="ml-2 text-sm text-gray-500">(0/5)</span>
+                        </div>
+                        <div class="flex justify-between items-center mt-4">
+                            <span class="text-lg font-semibold text-[#3B2A2A]">$26.99</span>
+                            <button
+                                class="ajouter-produit bg-[#4A2C2A] text-white px-4 py-2 rounded-lg hover:bg-[#3B2A2A]"
+                                data-id="decafeine-signature" data-name="Décaféiné Signature"
+                                data-price="26.99">ajouter</button>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="bg-white rounded-2xl shadow-lg hover:shadow-2xl transition overflow-hidden group"
+                    id="mouture-cold-brew">
+                    <div class="relative">
+                        <img src="images/Mouture Cold Brew.png" alt="Product Image"
+                            class="object-contain group-hover:scale-105 transition-transform object-center bg-white"
+                            style="object-position: center;" />
+
+                    </div>
+                    <div class="p-5">
+                        <h3 class="text-lg font-bold text-[#4A2C2A] mb-1">Mouture Cold Brew</h3>
+                        <p class="text-sm text-gray-500 mb-2">Une mouture spécialement conçue pour le cold brew, offrant
+                            une extraction douce et savoureuse.</p>
+                        <div class="flex items-center mb-2">
+                            <i class="fa fa-star text-yellow-400"></i>
+                            <i class="fa fa-star text-yellow-400"></i>
+                            <i class="fa fa-star text-yellow-400"></i>
+                            <i class="fa fa-star text-yellow-400"></i>
+                            <i class="fa fa-star text-yellow-400"></i>
+                            <span class="ml-2 text-sm text-gray-500">(5/5)</span>
+                        </div>
+                        <div class="flex justify-between items-center mt-4">
+                            <span class="text-lg font-semibold text-[#3B2A2A]">$19.99</span>
+                            <button
+                                class="ajouter-produit bg-[#4A2C2A] text-white px-4 py-2 rounded-lg hover:bg-[#3B2A2A]"
+                                data-id="mouture-cold-brew" data-name="Mouture Cold Brew"
+                                data-price="19.99">ajouter</button>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="bg-white rounded-2xl shadow-lg hover:shadow-2xl transition overflow-hidden group"
+                    id="melange-matinal">
+                    <div class="relative">
+                        <img src="images/kenya.png" alt="Product Image"
+                            class="object-contain group-hover:scale-105 transition-transform object-center bg-white"
+                            style="object-position: center;" />
+                        <span
+                            class="absolute top-3 right-3 bg-[#4A2C2A] text-white text-xs px-2 py-1 rounded">New</span>
+                    </div>
+                    <div class="p-5">
+                        <h3 class="text-lg font-bold text-[#4A2C2A] mb-1">Kenya AA</h3>
+                        <p class="text-sm text-gray-500 mb-2">Un café riche et corsé avec des notes de fruits rouges.
+                        </p>
+                        <div class="flex items-center mb-2">
+                            <i class="fa fa-star text-yellow-400"></i>
+                            <i class="fa fa-star text-yellow-400"></i>
+                            <i class="fa fa-star text-yellow-400"></i>
+                            <i class="fa fa-star text-yellow-400"></i>
+                            <i class="fa fa-star text-gray-400"></i>
+                            <span class="ml-2 text-sm text-gray-500">(4/5)</span>
+                        </div>
+                        <div class="flex justify-between items-center mt-4">
+                            <span class="text-lg font-semibold text-[#3B2A2A]">$19.99</span>
+                            <button
+                                class="ajouter-produit bg-[#4A2C2A] text-white px-4 py-2 rounded-lg hover:bg-[#3B2A2A]"
+                                data-id="kenya-aa" data-name="Kenya AA" data-price="19.99">ajouter</button>
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+
+            <!-- catégories collection saisonnières -->
+            <h3 class="text-2xl font-bold text-[#4A2C2A] mb-6  py-4 animate__animated px-24 relative lg:inline-block text-center md:text-left"
+                id="collections-saisonnieres">
+                Catégories collection saisonnières
+                <span class="bg-[#4A2C2A] absolute w-[100px] h-1 bottom-0 left-24 hidden"></span>
+            </h3>
+            <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 mb-12 gap-8 max-w-7xl mx-auto my-10">
+                <!-- Product Card -->
+                <div class="bg-white rounded-2xl shadow-lg hover:shadow-2xl transition overflow-hidden group"
+                    id="ethiopie-yirgacheffe">
+                    <div class="relative">
+                        <img src="images/Bresil cerrado.png" alt="Product Image"
+                            class="object-contain group-hover:scale-105 transition-transform object-center bg-white"
+                            style="object-position: center;" />
+
+                    </div>
+                    <div class="p-5">
+                        <h3 class="text-lg font-bold text-[#4A2C2A] mb-1">Édition Printemps</h3>
+                        <p class="text-sm text-gray-500 mb-2">Ce café de printemps offre des notes florales et fruitées,
+                            parfait pour la saison.</p>
+                        <div class="flex items-center mb-2">
+                            <i class="fa fa-star text-yellow-400"></i>
+                            <i class="fa fa-star text-yellow-400"></i>
+                            <i class="fa fa-star text-gray-400"></i>
+                            <i class="fa fa-star text-gray-400"></i>
+                            <i class="fa fa-star text-gray-400"></i>
+                            <span class="ml-2 text-sm text-gray-500">(2/5)</span>
+                        </div>
+                        <div class="flex justify-between items-center mt-4">
+                            <span class="text-lg font-semibold text-[#3B2A2A]">$10.99</span>
+                            <button
+                                class="ajouter-produit bg-[#4A2C2A] text-white px-4 py-2 rounded-lg hover:bg-[#3B2A2A]"
+                                data-id="edition-printemps" data-name="Édition Printemps"
+                                data-price="10.99">ajouter</button>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="bg-white rounded-2xl shadow-lg hover:shadow-2xl transition overflow-hidden group"
+                    id="mouture-cold-brew">
+                    <div class="relative">
+                        <img src="images/Mouture Cold Brew.png" alt="Product Image"
+                            class="object-contain group-hover:scale-105 transition-transform object-center bg-white"
+                            style="object-position: center;" />
+
+                    </div>
+                    <div class="p-5">
+                        <h3 class="text-lg font-bold text-[#4A2C2A] mb-1">Édition Été</h3>
+                        <p class="text-sm text-gray-500 mb-2">Ce café d'été offre des notes de fruits tropicaux et
+                            d'agrumes, parfait pour les journées ensoleillées.</p>
+                        <div class="flex items-center mb-2">
+                            <i class="fa fa-star text-yellow-400"></i>
+                            <i class="fa fa-star text-yellow-400"></i>
+                            <i class="fa fa-star text-gray-400"></i>
+                            <i class="fa fa-star text-gray-400"></i>
+                            <i class="fa fa-star text-gray-400"></i>
+                            <span class="ml-2 text-sm text-gray-500">(5/5)</span>
+                        </div>
+                        <div class="flex justify-between items-center mt-4">
+                            <span class="text-lg font-semibold text-[#3B2A2A]">$6.99</span>
+                            <button
+                                class="ajouter-produit bg-[#4A2C2A] text-white px-4 py-2 rounded-lg hover:bg-[#3B2A2A]"
+                                data-id="edition-ete" data-name="Édition Été" data-price="6.99">ajouter</button>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="bg-white rounded-2xl shadow-lg hover:shadow-2xl transition overflow-hidden group"
+                    id="melange-matinal">
+                    <div class="relative">
+                        <img src="images/kenya.png" alt="Product Image"
+                            class="object-contain group-hover:scale-105 transition-transform object-center bg-white"
+                            style="object-position: center;" />
+                    </div>
+                    <div class="p-5">
+                        <h3 class="text-lg font-bold text-[#4A2C2A] mb-1">Édition Hiver</h3>
+                        <p class="text-sm text-gray-500 mb-2">Ce café d'hiver offre des notes épicées et chocolatées,
+                            parfait pour les soirées au coin du feu.</p>
+                        <div class="flex items-center mb-2">
+                            <i class="fa fa-star text-yellow-400"></i>
+                            <i class="fa fa-star text-yellow-400"></i>
+                            <i class="fa fa-star text-yellow-400"></i>
+                            <i class="fa fa-star text-yellow-400"></i>
+                            <i class="fa fa-star text-gray-400"></i>
+                            <span class="ml-2 text-sm text-gray-500">(4/5)</span>
+                        </div>
+                        <div class="flex justify-between items-center mt-4">
+                            <span class="text-lg font-semibold text-[#3B2A2A]">$9.99</span>
+                            <button
+                                class="ajouter-produit bg-[#4A2C2A] text-white px-4 py-2 rounded-lg hover:bg-[#3B2A2A]"
+                                data-id="edition-hiver" data-name="Édition Hiver" data-price="9.99">ajouter</button>
+                        </div>
+                    </div>
+                </div>
+        </section>
+
+
+                <!-- Section À propos moderne et narrative -->
+        <section class="bg-white py-30 px-6" id="a-propos">
+            <div class="max-w-6xl mx-auto flex flex-col md:flex-row items-center gap-12">
+                <div class="md:w-1/2 mb-8 md:mb-0">
+                    <img src="images/about-coffee.jpg" alt="À propos The Daily Grind"
+                        class="w-full h-auto rounded-xl shadow-lg">
+                </div>
+                <div class="md:w-1/2">
+                    <h2 class="text-4xl font-extrabold text-[#4A2C2A] mb-6">Notre histoire</h2>
+                    <p class="text-lg text-gray-700 mb-4 text-justify">
+                        Tout a commencé dans une petite cuisine parisienne, où l’arôme du café fraîchement moulu
+                        réunissait famille et amis autour de la table. C’est là que l’idée de The Daily Grind est née :
+                        offrir à chacun ce moment de bonheur, cette pause authentique, où chaque tasse raconte une
+                        histoire.
+                    </p>
+                    <p class="text-lg text-gray-700 mb-4 text-justify">
+                        Animés par la passion du café de spécialité, nous avons parcouru le monde à la recherche des
+                        meilleurs grains, rencontrant des producteurs engagés et découvrant des terroirs uniques. Chaque
+                        café que nous sélectionnons est le fruit d’un savoir-faire, d’un respect de la terre et d’une
+                        volonté de partager le meilleur.
+                    </p>
+                    <p class="text-lg text-gray-700 mb-4 text-justify">
+                        Chez The Daily Grind, la torréfaction est un art : nous travaillons chaque origine avec
+                        précision pour révéler ses arômes et sa personnalité. Notre équipe veille à chaque étape, de la
+                        sélection à la livraison, pour garantir une expérience exceptionnelle à nos clients.
+                    </p>
+                    <p class="text-lg text-gray-700 mb-4 text-justify">
+                        Aujourd’hui, nous sommes fiers de vous proposer des cafés traçables, éthiques et savoureux, qui
+                        subliment votre quotidien. Rejoignez notre aventure et partagez avec nous la passion du bon
+                        café !
+                    </p>
+                    <ul class="mb-6">
+                        <li class="flex items-center mb-2"><i class="fa fa-check text-[#4A2C2A] mr-2"></i> Cafés 100%
+                            traçables et éthiques</li>
+                        <li class="flex items-center mb-2"><i class="fa fa-check text-[#4A2C2A] mr-2"></i> Torréfaction
+                            artisanale à Paris</li>
+                        <li class="flex items-center mb-2"><i class="fa fa-check text-[#4A2C2A] mr-2"></i> Livraison
+                            rapide et soignée</li>
+                    </ul>
+                    <a href="index.html#contact"
+                        class="inline-block bg-[#4A2C2A] text-white px-6 py-3 rounded-xl hover:bg-[#3B2A2A] transition">Nous
+                        contacter</a>
+                </div>
+            </div>
+        </section>
+    </main>
+
+        <footer class="bg-[#4A2C2A]   pb-6">
+        <div class="border-t border-gray-700 mt-8 pt-4 text-center text-gray-400 text-sm">
+            &copy; 2025 The Daily Grind. Tous droits réservés.
+        </div>
+    </footer>
+ 
+</body>
+
+</html>

@@ -1,0 +1,605 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css" />
+    <script src="https://cdn.jsdelivr.net/npm/@tailwindcss/browser@4"></script>
+    <script src="script.js" defer></script>
+    <link
+        href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;700&family=Playfair+Display:wght@700&display=swap"
+        rel="stylesheet">
+    <style>
+        body {
+            font-family: 'Montserrat', Arial, sans-serif;
+        }
+
+        h1,
+        h2,
+        h3,
+        h4,
+        h5,
+        h6 {
+            font-family: 'Playfair Display', serif;
+        }
+        @layer utilities {
+  @keyframes fadeInSlide {
+    0% { opacity: 0; transform: translateY(40px); }
+    100% { opacity: 1; transform: translateY(0); }
+  }
+  .animate-fadeInSlide {
+    animation: fadeInSlide 1s ease-out forwards;
+  }
+
+  @keyframes bounceOnce {
+    0%, 100% { transform: scale(1); }
+    50% { transform: scale(1.05); }
+  }
+  .animate-bounceOnce:hover {
+    animation: bounceOnce 0.4s ease-in-out;
+  }
+}
+
+
+
+/* HTML: <div class="loader"></div> */
+.loader {
+  width: 40px;
+  height: 26px;
+  --c:no-repeat linear-gradient(#000 0 0);
+  background:
+    var(--c) 0    100%,
+    var(--c) 50%  100%,
+    var(--c) 100% 100%;
+  background-size:8px calc(100% - 4px);
+  position: relative;
+}
+.loader:before {
+  content: "";
+  position: absolute;
+  width: 8px;
+  height: 8px;
+  border-radius: 50%;
+  background: #000;
+  left: 0;
+  top: 0;
+  animation: 
+    l3-1 1.5s  linear infinite alternate,
+    l3-2 0.75s cubic-bezier(0,200,.8,200) infinite;
+}
+@keyframes l3-1 {
+  100% {left:calc(100% - 8px)}
+}
+@keyframes l3-2 {
+  100% {top:-0.1px}
+}
+    </style>
+    <title>Document</title>
+</head>
+
+<body>
+
+    <div class="loader"></div>
+    <!-- navbar responsive sticky -->
+    <header>
+        <nav class="bg-transparent px-4 fixed top-0 z-50 w-full transition-transform duration-300 ease-in-out"
+            id="navbar">
+            <div class="flex items-center justify-between w-full lg:max-w-7xl mx-auto container" id="navbar-container">
+                <div>
+                    <img src="images/logo.png" alt="Company Logo" class="w-20">
+                </div>
+                <!-- sur desktop et mmoyen appareil -->
+                <div class="hidden md:block">
+                    <ul class="flex justify-between space-x-8 items-center">
+                        <li class=" nav-link hover:text-[#4A2C2A] text-white"><a href="#">Accueil</a></li>
+                        <li class="nav-link group relative hover:text-[#4A2C2A] text-white">
+                            <a href="boutique.html#nos-cafes" class="flex items-center gap-2">
+                                Boutique
+                                <i class="fa fa-chevron-down text-xs"></i>
+                            </a>
+                            <!-- Dropdown menu -->
+                            <div
+                                class="absolute left-0 top-full min-w-[220px] bg-white shadow-lg rounded-lg mt-2 opacity-0 group-hover:opacity-100 pointer-events-none group-hover:pointer-events-auto transition duration-200 z-40">
+                                <h2 class="px-4 py-2 border-b border-gray-200 font-semibold text-[#4A2C2A]">Catégories
+                                </h2>
+                                <ul class="py-2">
+                                    <li class="px-4 py-2 hover:bg-gray-100">
+                                        <a href="boutique.html#classiques-blends"
+                                            class="font-bold text-[#4A2C2A]">Classiques & Blends</a>
+                                    </li>
+                                    <li class="px-4 py-2 hover:bg-gray-100">
+                                        <a href="boutique.html#origines-pures" class="font-bold text-[#4A2C2A]">Origines
+                                            Pures</a>
+                                    </li>
+                                    <li class="px-4 py-2 hover:bg-gray-100">
+                                        <a href="boutique.html#specialites-innovations"
+                                            class="font-bold text-[#4A2C2A]">Spécialités & Innovations</a>
+                                    </li>
+                                    <li class="px-4 py-2 hover:bg-gray-100">
+                                        <a href="boutique.html#collections-saisonnieres"
+                                            class="font-bold text-[#4A2C2A]">Collections Saisonnières</a>
+                                    </li>
+                                </ul>
+                            </div>
+                        </li>
+                        <li class=" nav-link hover:text-[#4A2C2A] text-white"><a href="boutique.html#a-propos">A
+                                propos</a></li>
+                        <li class=" nav-link hover:text-[#4A2C2A] text-white"><a href="index.html#contact">Contact</a>
+                        </li>
+                        <li class="relative bg-gray-200 rounded-full p-4">
+                            <img src="images/carte-de-shopping.png" alt="Cart Icon" class="w-6 h-6"
+                                id="cart-icon-desktop">
+                            <span
+                                class="absolute top-1 right-1 transform translate-x-1/2 -translate-y-1/2 bg-red-500 text-white text-xs font-bold rounded-full w-5 h-5 flex items-center justify-center"
+                                id="cart-count-desktop">0</span>
+                        </li>
+                    </ul>
+                </div>
+                <!-- bouton hamburger plus panier -->
+                <div class="md:hidden flex flex-row-reverse items-center gap-4">
+                    <button id="hamburger" class="flex items-center p-4 w-20 text-3xl">
+                        <i class="fa-solid fa-bars " id="hamburger-icon"></i>
+                    </button>
+                    <!-- bouton de fermeture -->
+                    <button id="close-menu" class="flex items-center p-4 w-20 text-3xl hidden">
+                        <i class="fa-solid fa-xmark" id="close-icon"></i>
+                    </button>
+                    <div class="relative bg-gray-200 rounded-full p-4">
+                        <img src="images/carte-de-shopping.png" alt="Cart Icon" class="w-6 h-6" id="cart-icon-mobile">
+                        <span
+                            class="absolute top-1 right-1 transform translate-x-1/2 -translate-y-1/2 bg-red-500 text-white text-xs font-bold rounded-full w-5 h-5 flex items-center justify-center"
+                            id="cart-count-mobile">0</span>
+                    </div>
+                </div>
+
+            </div>
+
+        </nav>
+        <!-- menu responsive -->
+        <div id="menu" class="fixed inset-0 z-50 hidden bg-black/50">
+            <div id="menu-panel"
+                class="bg-white w-64 h-full transform -translate-x-full transition-transform duration-300">
+                <div class="flex items-center justify-between border-b p-4">
+                
+                        <img src="images/logo.png" alt="Company Logo" class="w-20">
+                
+                    <button id="close-menu-panel" class="p-4 text-xl font-bold">✕</button>
+                
+                </div>
+                <nav class="mt-4">
+                    <ul class="flex flex-col space-y-4 p-4">
+                        <li><a href="index.html">Accueil</a></li>
+                        <li>
+                            <a href="boutique.html#nos-cafes" class="flex items-center gap-2">Boutique</a>
+                        </li>
+                        <li><a href="boutique.html#a-propos">A propos</a></li>
+                        <li><a href="index.html#contact">Contact</a></li>
+                    </ul>
+                </nav>
+                <!-- Liens réseaux sociaux -->
+                <div class="flex justify-center mt-auto mb-4 space-x-4 text-xl">
+                    <a href="https://facebook.com" target="_blank"><i class="fab fa-facebook-f"></i></a>
+                    <a href="https://twitter.com" target="_blank"><i class="fab fa-twitter"></i></a>
+                    <a href="https://instagram.com" target="_blank"><i class="fab fa-instagram"></i></a>
+                    <a href="https://linkedin.com" target="_blank"><i class="fab fa-linkedin-in"></i></a>
+                </div>
+            </div>
+        </div>
+
+
+
+
+        <!-- Ajoute juste après la div du panier -->
+        <div id="cart" class="hidden  fixed top-20 right-4 bg-[#F5F5DC] shadow-lg rounded-xl p-6 z-50 w-80">
+            <h2 class="text-xl font-bold text-[#4A2C2A]">Votre Panier</h2>
+            <div id="cart-items" class="mt-4 text-[#4A2C2A]">
+                <!-- Les articles du panier seront ajoutés ici dynamiquement -->
+            </div>
+        </div>
+    </header>
+
+    <main>
+        <section class="relative h-screen top-0" id="accueil">
+            <img src="images/hero.png" alt="Hero Background"
+                class="absolute inset-0 object-cover w-full h-full -z-1 brightness-90 saturate-150">
+            <div class="absolute inset-0 bg-gradient-to-b from-yellow-100/40 via-orange-100/30 to-transparent"></div>
+            <div class="absolute inset-0 flex items-center justify-center pointer-events-none">
+                <div class="w-3/4 h-2/5 bg-black/60 rounded-full blur-2xl"></div>
+            </div>
+            <div class="relative z-10 flex flex-col items-center justify-center h-full text-center ">
+                <h1 class="text-6xl font-bold text-white ">Bienvenue sur notre site</h1>
+                <p class="mt-4 text-lg text-white text-center max-w-2xl px-8">La perfection en chaque grain. The Daily
+                    Grind
+                    sublime votre quotidien avec des cafés de spécialité, torréfiés avec soin pour révéler des arômes
+                    exceptionnels</p>
+
+                <div class="rounded-md shadow my-10">
+                    <a href="boutique.html"
+                        class="w-50 bg-[#4A2C2A] text-white hover:bg-[#3B2A2A] md:py-4 md:text-lg md:px-10 rounded-md py-2 px-4 text-sm font-medium transition duration-300 ease-in-out">
+                        Découvrir nos cafés
+                    </a>
+                </div>
+
+            </div>
+
+
+        </section>
+
+        <!-- Section "Produits Phares" -->
+        <section class="bg-gray-50 min-h-screen py-16 px-6" id="produits-phares">
+            <!-- Hero -->
+            <div class="text-center mb-12">
+                <h1 class="text-4xl md:text-5xl font-extrabold text-[#4A2C2A]">Explorez Nos Cafés Phare</h1>
+                <p class="mt-4 text-lg text-gray-600 max-w-2xl mx-auto">Découvrez les arômes qui ont fait notre
+                    réputation. Une sélection approuvée par les amateurs de bon café.</p>
+            </div>
+
+            <!-- Product Grid -->
+            <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 mb-12 gap-8 max-w-7xl mx-auto">
+                <!-- Product Card -->
+                <div class="bg-white rounded-2xl shadow-lg hover:shadow-2xl transition overflow-hidden group"
+                    id="melange-matinal">
+                    <div class="relative">
+                        <img src="images/Mélange_Matinal.png" alt="Product Image"
+                            class="object-contain group-hover:scale-105 transition-transform object-center bg-white"
+                            style="object-position: center;" />
+                        <span
+                            class="absolute top-3 right-3 bg-[#4A2C2A] text-white text-xs px-2 py-1 rounded">Recommandé</span>
+                    </div>
+                    <div class="p-5">
+                        <h3 class="text-lg font-bold text-[#4A2C2A] mb-1">Mélange Matinal</h3>
+                        <p class="text-sm text-gray-500 mb-2">Mélange de cafés d'Amérique Centrale et du Sud</p>
+                        <div class="flex items-center mb-2">
+                            <i class="fa fa-star text-yellow-400"></i>
+                            <i class="fa fa-star text-yellow-400"></i>
+                            <i class="fa fa-star text-yellow-400"></i>
+                            <i class="fa fa-star text-yellow-400"></i>
+                            <i class="fa fa-star text-yellow-400"></i>
+                            <span class="ml-2 text-sm text-gray-500">(5/5)</span>
+                        </div>
+                        <div class="flex justify-between items-center mt-4">
+                            <span class="text-lg font-semibold text-[#3B2A2A]">$12.99</span>
+                            <button
+                                class="ajouter-produit bg-[#4A2C2A] text-white px-4 py-2 rounded-lg hover:bg-[#3B2A2A]"
+                                data-id="melange-matinal" data-name="Mélange Matinal"
+                                data-price="12.99">ajouter</button>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="bg-white rounded-2xl shadow-lg hover:shadow-2xl transition overflow-hidden group"
+                    id="ethiopie-yirgacheffe">
+                    <div class="relative">
+                        <img src="images/Éthiopie Yirgacheffe.png" alt="Product Image"
+                            class="object-contain group-hover:scale-105 transition-transform object-center bg-white"
+                            style="object-position: center;" />
+                        <span
+                            class="absolute top-3 right-3 bg-[#4A2C2A] text-white text-xs px-2 py-1 rounded">Recommandé</span>
+                    </div>
+                    <div class="p-5">
+                        <h3 class="text-lg font-bold text-[#4A2C2A] mb-1">Éthiopie Yirgacheffe</h3>
+                        <p class="text-sm text-gray-500 mb-2">Un café floral et fruité avec des notes de jasmin et de
+                            bergamote.</p>
+                        <div class="flex items-center mb-2">
+                            <i class="fa fa-star text-yellow-400"></i>
+                            <i class="fa fa-star text-yellow-400"></i>
+                            <i class="fa fa-star text-yellow-400"></i>
+                            <i class="fa fa-star text-yellow-400"></i>
+                            <i class="fa fa-star text-yellow-400"></i>
+                            <span class="ml-2 text-sm text-gray-500">(5/5)</span>
+                        </div>
+                        <div class="flex justify-between items-center mt-4">
+                            <span class="text-lg font-semibold text-[#3B2A2A]">$15.99</span>
+                            <button
+                                class="ajouter-produit bg-[#4A2C2A] text-white px-4 py-2 rounded-lg hover:bg-[#3B2A2A]"
+                                data-id="ethiopie-yirgacheffe" data-name="Éthiopie Yirgacheffe"
+                                data-price="15.99">ajouter</button>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="bg-white rounded-2xl shadow-lg hover:shadow-2xl transition overflow-hidden group"
+                    id="colombie-decafeine">
+                    <div class="relative">
+                        <img src="images/Colombie Décaféine.png" alt="Product Image"
+                            class=" object-contain group-hover:scale-105 transition-transform object-center bg-white"
+                            style="object-position: center;" />
+                        <span
+                            class="absolute top-3 right-3 bg-[#4A2C2A] text-white text-xs px-2 py-1 rounded">Recommandé</span>
+                    </div>
+                    <div class="p-5">
+                        <h3 class="text-lg font-bold text-[#4A2C2A] mb-1">Colombie Décaféiné</h3>
+                        <p class="text-sm text-gray-500 mb-2">Un café doux et équilibré avec des notes de chocolat et de
+                            noix.</p>
+                        <div class="flex items-center mb-2">
+                            <i class="fa fa-star text-yellow-400"></i>
+                            <i class="fa fa-star text-yellow-400"></i>
+                            <i class="fa fa-star text-yellow-400"></i>
+                            <i class="fa fa-star text-yellow-400"></i>
+                            <i class="fa fa-star text-yellow-400"></i>
+                            <span class="ml-2 text-sm text-gray-500">(5/5)</span>
+                        </div>
+                        <div class="flex justify-between items-center mt-4">
+                            <span class="text-lg font-semibold text-[#3B2A2A]">$13.99</span>
+                            <button
+                                class="ajouter-produit bg-[#4A2C2A] text-white px-4 py-2 rounded-lg hover:bg-[#3B2A2A]"
+                                data-id="colombie-decafeine" data-name="Colombie Décaféiné"
+                                data-price="13.99">ajouter</button>
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+            <div class="mt-6 text-center flex justify-center ">
+                <a href="boutique.html#nos-cafes">
+                    <button
+                        class="bg-[#4A2C2A] text-white px-6 py-3 rounded-xl hover:bg-[#3B2A2A] hover:scale-105 transition-transform">Shop
+                        Now</button>
+                </a>
+            </div>
+        </section>
+
+        <!-- Section "Nouvelle arrivage" -->
+        <section class="bg-gray-50 min-h-screen py-16 px-6" id="nouvel-arrivage">
+            <!-- Hero -->
+            <div class="text-center mb-12">
+                <h1 class="text-4xl md:text-5xl font-extrabold text-[#4A2C2A]">Découvrez nos dernières sélections</h1>
+                <p class="mt-4 text-lg text-gray-600 max-w-2xl mx-auto">Laissez-vous surprendre par l'arrivée de nos
+                    cafés fraîchement torréfiés, choisis pour leurs arômes exceptionnels.</p>
+            </div>
+
+            <!-- Product Grid -->
+            <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 mb-12 gap-8 max-w-7xl mx-auto">
+                <!-- Product Card -->
+                <div class="bg-white rounded-2xl shadow-lg hover:shadow-2xl transition overflow-hidden group"
+                    id="melange-matinal">
+                    <div class="relative">
+                        <img src="images/kenya.png" alt="Product Image"
+                            class="object-contain group-hover:scale-105 transition-transform object-center bg-white"
+                            style="object-position: center;" />
+                        <span
+                            class="absolute top-3 right-3 bg-[#4A2C2A] text-white text-xs px-2 py-1 rounded">New</span>
+                    </div>
+                    <div class="p-5">
+                        <h3 class="text-lg font-bold text-[#4A2C2A] mb-1">Kenya AA</h3>
+                        <p class="text-sm text-gray-500 mb-2">Un café riche et corsé avec des notes de fruits rouges.
+                        </p>
+                        <div class="flex items-center mb-2">
+                            <i class="fa fa-star text-yellow-400"></i>
+                            <i class="fa fa-star text-yellow-400"></i>
+                            <i class="fa fa-star text-yellow-400"></i>
+                            <i class="fa fa-star text-yellow-400"></i>
+                            <i class="fa fa-star text-gray-400"></i>
+                            <span class="ml-2 text-sm text-gray-500">(4/5)</span>
+                        </div>
+                        <div class="flex justify-between items-center mt-4">
+                            <span class="text-lg font-semibold text-[#3B2A2A]">$19.99</span>
+                            <button
+                                class="ajouter-produit bg-[#4A2C2A] text-white px-4 py-2 rounded-lg hover:bg-[#3B2A2A]"
+                                data-id="kenya-aa" data-name="Kenya AA" data-price="19.99">ajouter</button>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="bg-white rounded-2xl shadow-lg hover:shadow-2xl transition overflow-hidden group"
+                    id="ethiopie-yirgacheffe">
+                    <div class="relative">
+                        <img src="images/Bresil cerrado.png" alt="Product Image"
+                            class="object-contain group-hover:scale-105 transition-transform object-center bg-white"
+                            style="object-position: center;" />
+                        <span
+                            class="absolute top-3 right-3 bg-[#4A2C2A] text-white text-xs px-2 py-1 rounded">New</span>
+                    </div>
+                    <div class="p-5">
+                        <h3 class="text-lg font-bold text-[#4A2C2A] mb-1">Brésil Cerrado</h3>
+                        <p class="text-sm text-gray-500 mb-2">Un café doux et chocolaté avec des notes de noisette.</p>
+                        <div class="flex items-center mb-2">
+                            <i class="fa fa-star text-gray-400"></i>
+                            <i class="fa fa-star text-gray-400"></i>
+                            <i class="fa fa-star text-gray-400"></i>
+                            <i class="fa fa-star text-gray-400"></i>
+                            <i class="fa fa-star text-gray-400"></i>
+                            <span class="ml-2 text-sm text-gray-500">(0/5)</span>
+                        </div>
+                        <div class="flex justify-between items-center mt-4">
+                            <span class="text-lg font-semibold text-[#3B2A2A]">$17.99</span>
+                            <button
+                                class="ajouter-produit bg-[#4A2C2A] text-white px-4 py-2 rounded-lg hover:bg-[#3B2A2A]"
+                                data-id="bresil-cerrado" data-name="Brésil Cerrado" data-price="17.99">ajouter</button>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="bg-white rounded-2xl shadow-lg hover:shadow-2xl transition overflow-hidden group"
+                    id="colombie-decafeine">
+                    <div class="relative">
+                        <img src="images/Torréfaction.png" alt="Product Image"
+                            class="object-contain group-hover:scale-105 transition-transform object-center bg-white"
+                            style="object-position: center;" />
+                        <span
+                            class="absolute top-3 right-3 bg-[#4A2C2A] text-white text-xs px-2 py-1 rounded">New</span>
+                    </div>
+                    <div class="p-5">
+                        <h3 class="text-lg font-bold text-[#4A2C2A] mb-1">Mélange Torréfaction Moyenne</h3>
+                        <p class="text-sm text-gray-500 mb-2">Un café équilibré avec des notes de caramel et de
+                            chocolat.</p>
+                        <div class="flex items-center mb-2">
+                            <i class="fa fa-star text-yellow-400"></i>
+                            <i class="fa fa-star text-yellow-400"></i>
+                            <i class="fa fa-star text-yellow-400"></i>
+                            <i class="fa fa-star text-yellow-400"></i>
+                            <i class="fa fa-star text-yellow-400"></i>
+                            <span class="ml-2 text-sm text-gray-500">(5/5)</span>
+                        </div>
+                        <div class="flex justify-between items-center mt-4">
+                            <span class="text-lg font-semibold text-[#3B2A2A]">$20.99</span>
+                            <button
+                                class="ajouter-produit bg-[#4A2C2A] text-white px-4 py-2 rounded-lg hover:bg-[#3B2A2A]"
+                                data-id="melange-torrefaction-moyenne" data-name="Mélange Torréfaction Moyenne"
+                                data-price="20.99">ajouter</button>
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+            <div class="mt-6 text-center flex justify-center ">
+                <a href="boutique.html#nos-cafes"> <button
+                        class="bg-[#4A2C2A] text-white px-6 py-3 rounded-xl hover:bg-[#3B2A2A] hover:scale-105 transition-transform">Shop
+                        Now</button></a>
+            </div>
+        </section>
+
+        <!-- Notre histoire image a gauche texte à droite -->
+        <section id="notre-histoire" class="py-12 px-6">
+            <h1 class="text-4xl md:text-5xl font-extrabold text-[#4A2C2A] text-center mb-16">Notre histoire</h1>
+            <div class="lg:max-w-7xl mx-auto container flex flex-col md:flex-row items-center">
+                <div class="md:w-1/2">
+                    <img src="images/histoire.png" alt="Notre Histoire" class="w-full h-auto rounded shadow-lg" />
+                </div>
+                <div class="md:w-1/2 md:pl-8 pt-6">
+                    <p class="text-lg text-gray-700 text-justify">Chez The Daily Grind, notre passion va au-delà du
+                        simple fait de torréfier. C'est un art, une quête constante pour la perfection en chaque grain.
+                        Nous sélectionnons nos cafés avec soin et les traitons avec respect, pour vous offrir un moment
+                        de pur bonheur, tasse après tasse.</p>
+                </div>
+
+            </div>
+            <div class="mt-8 text-center">
+
+                <a href="boutique.html#a-propos"><button
+                        class="bg-[#4A2C2A] text-white px-6 py-3 rounded-xl hover:bg-[#3B2A2A] hover:scale-105 transition-transform">En
+                        savoir plus</button></a>
+            </div>
+        </section>
+
+        <!-- Section Avis Clients moderne avec carrousel automatique -->
+        <section class="bg-[#F5F5DC] py-16 px-6">
+            <h2 class="text-5xl font-bold text-[#4A2C2A] text-center  mb-10">Ce que disent nos clients</h2>
+            <div class="max-w-3xl mx-auto relative">
+                <div id="carousel-avis" class="overflow-hidden rounded-xl shadow-lg bg-white">
+                    <div class="flex transition-transform duration-700" id="carousel-inner">
+                        <!-- Avis 1 -->
+                        <div class="min-w-full flex flex-col items-center p-8">
+                            <div class="w-25 h-25 flex items-center justify-center rounded-full overflow-hidden">
+                                <img src="images/client1.jpg" alt="Client 1"
+                                    class="w-full h-full object-cover shadow object-position">
+                            </div>
+                            <p class="italic text-gray-700 text-center mb-4">“Le meilleur café que j’ai goûté !
+                                Livraison rapide et service au top.”</p>
+                            <span class="font-bold text-[#4A2C2A]">Sophie</span>
+                        </div>
+                        <!-- Avis 2 -->
+                        <div class="min-w-full flex flex-col items-center p-8">
+                            <div class="w-25 h-25 flex items-center justify-center rounded-full overflow-hidden">
+                                <img src="images/client2.jpg" alt="Client 2"
+                                    class="w-full h-full object-cover shadow object-position">
+                            </div>
+                            <p class="italic text-gray-700 text-center mb-4">“Des arômes exceptionnels, je recommande à
+                                tous les amateurs !”</p>
+                            <span class="font-bold text-[#4A2C2A]">Julien</span>
+                        </div>
+                        <!-- Avis 3 -->
+                        <div class="min-w-full flex flex-col items-center p-8">
+                            <div
+                                class="w-25 h-25 flex items-center justify-center rounded-full overflow-hidden relative">
+                                <img src="images/client3.jpg" alt="Client 3"
+                                    class="w-full h-full object-cover shadow  ">
+                            </div>
+                            <p class="italic text-gray-700 text-center mb-4">“Un vrai plaisir chaque matin, qualité
+                                irréprochable.”</p>
+                            <span class="font-bold text-[#4A2C2A]">Claire</span>
+                        </div>
+                        <!-- Avis 4 -->
+                        <div class="min-w-full flex flex-col items-center p-8">
+                            <div class="w-25 h-25 flex items-center justify-center rounded-full overflow-hidden ">
+                                <img src="images/client4.jpg" alt="Client 4"
+                                    class="w-full h-full object-cover shadow  object-position">
+                            </div>
+                            <p class="italic text-gray-700 text-center mb-4">“Site très intuitif, livraison rapide, café
+                                délicieux !”</p>
+                            <span class="font-bold text-[#4A2C2A]">Marc</span>
+                        </div>
+                        <!-- Avis 5 -->
+                        <div class="min-w-full flex flex-col items-center p-8">
+                            <div class="w-25 h-25 flex items-center justify-center rounded-full overflow-hidden">
+                                <img src="images/client5.jpg" alt="Client 5"
+                                    class="w-full h-full object-cover shadow object-position">
+                            </div>
+                            <p class="italic text-gray-700 text-center mb-4">“Service client réactif et produits de
+                                grande qualité.”</p>
+                            <span class="font-bold text-[#4A2C2A]">Fatima</span>
+                        </div>
+                    </div>
+                </div>
+                <!-- Points de navigation -->
+                <div class="flex justify-center mt-6 space-x-2" id="carousel-dots">
+                    <button class="w-3 h-3 rounded-full bg-[#4A2C2A] opacity-70"></button>
+                    <button class="w-3 h-3 rounded-full bg-[#4A2C2A] opacity-30"></button>
+                    <button class="w-3 h-3 rounded-full bg-[#4A2C2A] opacity-30"></button>
+                    <button class="w-3 h-3 rounded-full bg-[#4A2C2A] opacity-30"></button>
+                    <button class="w-3 h-3 rounded-full bg-[#4A2C2A] opacity-30"></button>
+                </div>
+            </div>
+        </section>
+
+        <!-- Section Contactez-nous moderne -->
+        <section class="bg-gray-50 py-30 px-6" id="contact">
+            <div class="max-w-5xl mx-auto grid grid-cols-1 md:grid-cols-2 gap-12 items-center">
+                <!-- Formulaire de contact -->
+                <div class="bg-white rounded-xl shadow-lg p-8">
+                    <h2 class="text-3xl font-bold text-[#4A2C2A] mb-6">Contactez-nous</h2>
+                    <form>
+                        <div class="mb-4">
+                            <label class="block text-gray-700 mb-2" for="name">Nom</label>
+                            <input type="text" id="name" name="name"
+                                class="w-full px-4 py-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-[#4A2C2A]"
+                                required>
+                        </div>
+                        <div class="mb-4">
+                            <label class="block text-gray-700 mb-2" for="email">Email</label>
+                            <input type="email" id="email" name="email"
+                                class="w-full px-4 py-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-[#4A2C2A]"
+                                required>
+                        </div>
+                        <div class="mb-4">
+                            <label class="block text-gray-700 mb-2" for="message">Message</label>
+                            <textarea id="message" name="message" rows="5"
+                                class="w-full px-4 py-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-[#4A2C2A]"
+                                required></textarea>
+                        </div>
+                        <button type="submit"
+                            class="bg-[#4A2C2A] text-white px-6 py-2 rounded-lg hover:bg-[#3B2A2A] transition">Envoyer</button>
+                    </form>
+                </div>
+                <!-- Informations de contact -->
+                <div>
+                    <h3 class="text-2xl font-bold text-[#4A2C2A] mb-6">Nos coordonnées</h3>
+                    <p class="mb-4 text-gray-700"><i class="fa fa-envelope mr-2 text-[#4A2C2A]"></i>
+                        contact@thedailygrind.com</p>
+                    <p class="mb-4 text-gray-700"><i class="fa fa-phone mr-2 text-[#4A2C2A]"></i> +33 1 23 45 67 89</p>
+                    <p class="mb-4 text-gray-700"><i class="fa fa-map-marker-alt mr-2 text-[#4A2C2A]"></i> 12 rue du
+                        Café, Paris</p>
+                    <div class="mt-6">
+                        <h4 class="font-bold mb-2 text-[#4A2C2A]">Suivez-nous</h4>
+                        <div class="flex space-x-4">
+                            <a href="#" class="hover:text-yellow-300 text-2xl"><i class="fab fa-facebook-f"></i></a>
+                            <a href="#" class="hover:text-yellow-300 text-2xl"><i class="fab fa-instagram"></i></a>
+                            <a href="#" class="hover:text-yellow-300 text-2xl"><i class="fab fa-twitter"></i></a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+    </main>
+
+    <footer class="bg-[#4A2C2A]   pb-6">
+        <div class="border-t border-gray-700 mt-8 pt-4 text-center text-gray-400 text-sm">
+            &copy; 2025 The Daily Grind. Tous droits réservés.
+        </div>
+    </footer>
+
+</body>
+
+</html>
